@@ -38,19 +38,19 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    let strNull = '0000000000';
-    result = '';
-    function replaceStr (Char) {
-     Char = Char.replace(/\./g, "10").replace(/\-/g, "11");
-     result += strNull.substr(0, strNull.length - Char.length) + Char;
+    let result = '';
+  let string = '';
+  function replaceStr (char) {
+     char = char.replace(/10/g, ".").replace(/11/g, "-").replace(/0/g, "")
+     for (let key in MORSE_TABLE) {key === char ? result += MORSE_TABLE[key] : result = result};
     }
-    for (let i = 0; i < expr.length; i++) {
-      if (expr[i] == ' ') {result +='**********'}
-    for (let key in MORSE_TABLE) {
-      if (MORSE_TABLE[key] === expr[i]) {replaceStr(key)}
-    }
-    }
-    return result
+  
+  for (let i = 0; i<expr.length; i = i+10) {
+    string = expr.slice(i, i + 10);
+    if (string === '**********') {result += ' '}
+    else {replaceStr(string)}
+  };
+return result;
 }
 
 module.exports = {
